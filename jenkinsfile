@@ -72,8 +72,8 @@ def COMMIT_ID
      stage("Publish to Nexus Repository Manager") {
        steps {
          sh "apt-get install zip"
-         sh "zip -r laravel-project.zip ."
-         sh "curl -v -u wissem:wissem --upload-file laravel-project.zip  http://172.20.0.2:8081/repository/maven-releases/quantum/solutions/io/next-gen-radio/${COMMIT_ID}/next-gen-radio-${COMMIT_ID}.zip"
+         sh "zip -r project_laravel.zip ."
+         sh "curl -v -u wissem:wissem --upload-file project_laravel.zip  http://172.20.0.2:8081/repository/maven-releases/quantum/solutions/io/next-gen-radio/${COMMIT_ID}/next-gen-radio-${COMMIT_ID}.zip"
        }  
      }
    }  
