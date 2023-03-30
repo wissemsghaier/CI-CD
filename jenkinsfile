@@ -19,7 +19,7 @@ def COMMIT_ID
             doGenerateSubmoduleConfigurations: false,
             extensions: [],
             submoduleCfg: [],
-            userRemoteConfigs: [[credentialsId: 'jenkins-scm', url: 'https://gitlab.com/wissemsghaier2000/laravel-project.git']]
+            userRemoteConfigs: [[credentialsId: 'jenkins-scm', url: 'https://gitlab.quantum-solutions.xyz/devops/pfe-2023/project_laravel.git']]
           ]) 
           sh "git rev-parse --short HEAD > commit_hash.txt"
           COMMIT_ID = readFile('commit_hash.txt').trim()
