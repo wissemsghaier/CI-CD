@@ -1,0 +1,85 @@
+def COMMIT_ID
+ pipeline {
+   agent any 
+   environment {
+     NEXUS_VERSION = "nexus3"
+     NEXUS_PROTOCOL = "http"
+     NEXUS_URL = "172.20.0.2:8081"  
+     NEXUS_REPOSITORY = "maven-releases"
+     NEXUS_CREDENTIAL_ID = "nexus-jenkins"
+     ARTIFACT_PACKAGING = 'zip'
+
+   }  
+   stages {
+    stage('Checkout') {
+      steps {
+        script {
+          checkout([$class: 'GitSCM',
+            branches: [[name: "main"]],
+            doGenerateSubmoduleConfigurations: false,
+            extensions: [],
+            submoduleCfg: [],
+            userRemoteConfigs: [[credentialsId: 'jenkins-scm', url: 'https://gitlab.com/wissemsghaier2000/laravel-project.git']]
+          ]) 
+          sh "git rev-parse --short HEAD > commit_hash.txt"
+          COMMIT_ID = readFile('commit_hash.txt').trim()
+          echo "Commit Hash: ${COMMIT_ID}"
+        }         
+      }
+    }
+
+     stage('install packages') {
+       steps {
+         //sh "composer update"
+         sh "composer install"
+         
+       }
+     } 
+  
+     stage ('pre-configure'){
+       steps{
+         sh 'cp .env.example .env'
+         sh 'php artisan key:generate'
+       }
+     }      
+     stage('test') {
+       steps { 
+         sh "php artisan test "
+         sh './vendor/bin/phpunit'
+       }  
+     }
+     stage('Code Quality Check via SonarQube') {
+       steps {
+         script {
+           def scannerHome = tool 'sonarqube-scanner';
+           withSonarQubeEnv("SonarQube") {
+              sh "${tool("sonarqube-scanner")}/bin/sonar-scanner \
+              -Dsonar.projectName=project \
+              -Dsonar.projectKey=project \
+              -Dsonar.sources=. \
+              -Dsonar.host.url=http://172.20.0.1:9001/  \
+              -Dsonar.login=squ_46a98b9d40038050199857de88cd6eeceebf3876"
+           }
+         }
+       }
+     }
+     stage("Quality Gate") {
+       steps {
+         sleep 60
+         waitForQualityGate abortPipeline: true
+       }
+     }
+     stage("Publish to Nexus Repository Manager") {
+       steps {
+         sh "apt-get install zip"
+         sh "zip -r laravel-project.zip ."
+         sh "curl -v -u wissem:wissem --upload-file laravel-project.zip  http://172.20.0.2:8081/repository/maven-releases/quantum/solutions/io/next-gen-radio/${COMMIT_ID}/next-gen-radio-${COMMIT_ID}.zip"
+       }  
+     }
+   }  
+   post { 
+     always { 
+       cleanWs()
+     }
+   }
+ }       
