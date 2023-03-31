@@ -2,6 +2,11 @@ def COMMIT_ID
  pipeline {
    agent any  
    stages {
+     stage ("started "){
+       steps {
+         slackSend channel: "#jenkins-alerts-pfe-2023", message: "Build Started: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
+       }
+     }  
      stage('Checkout') {
        steps {
          script {
@@ -126,7 +131,7 @@ def COMMIT_ID
    post {
      always { 
        cleanWs()
-       slackSend channel: "#jenkins-alerts-pfe-2023", message: "Build Started: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
+       
      }
      success {
        slackSend channel: '#jenkins-alerts-pfe-2023', message: "Build ${currentBuild.result} for ${env.JOB_NAME} #${env.BUILD_NUMBER} (duration: ${currentBuild.durationString}). Check out the build at ${env.BUILD_URL}"
