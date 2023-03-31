@@ -43,13 +43,13 @@ def COMMIT_ID
          
        }
        post {
-        success {
-          slackSend (color: 'good', message: "install packages of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
-        }
-        failure {
-          slackSend (color: 'danger', message: "install packages of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
-        }
-      }
+         success {
+           slackSend (color: 'good', message: "install packages of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
+         } 
+         failure {
+           slackSend (color: 'danger', message: "install packages of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
+         }
+       }
      } 
   
      stage ('pre-configure'){
@@ -58,13 +58,13 @@ def COMMIT_ID
          sh 'php artisan key:generate'
        }
        post {
-        success {
-          slackSend (color: 'good', message: "pre-configure of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
-        }
-        failure {
-          slackSend (color: 'danger', message: "pre-configure of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
-        }
-      }
+         success {
+           slackSend (color: 'good', message: "pre-configure of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
+         }
+         failure {
+           slackSend (color: 'danger', message: "pre-configure of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
+         }
+       }
      }      
      stage('test') {
        steps { 
@@ -72,13 +72,13 @@ def COMMIT_ID
          sh './vendor/bin/phpunit'
        } 
        post {
-        success {
-          slackSend (color: 'good', message: "Test of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
-        }
-        failure {
-          slackSend (color: 'danger', message: "Test of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
-        }
-      } 
+         success {
+           slackSend (color: 'good', message: "Test of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
+         }
+         failure {
+           slackSend (color: 'danger', message: "Test of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
+         }
+       } 
      }
      stage('Code Quality Check via SonarQube') {
        steps {
@@ -95,13 +95,13 @@ def COMMIT_ID
          }
        }
        post {
-        success {
-          slackSend (color: 'good', message: "Code Quality of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
-        }
-        failure {
-          slackSend (color: 'danger', message: "Code Qualityof pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
-        }
-      }
+         success {
+           slackSend (color: 'good', message: "Code Quality of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
+         }
+         failure {
+           slackSend (color: 'danger', message: "Code Qualityof pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
+         }
+       }
      }
      stage("Quality Gate") {
        steps {
@@ -109,14 +109,14 @@ def COMMIT_ID
          waitForQualityGate abortPipeline: true
        }
        post {
-        success {
-          slackSend (color: 'good', message: "Quality Gate of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
-        }
-        failure {
-          slackSend (color: 'danger', message: "Quality Gate of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
-        }
-      }
-     }
+         success {
+           slackSend (color: 'good', message: "Quality Gate of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
+         }
+         failure {
+           slackSend (color: 'danger', message: "Quality Gate of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
+         } 
+       }
+     } 
      stage(" Publish to Nexus Repository Manager") {
        steps {
          sh "apt-get install zip"
@@ -124,13 +124,13 @@ def COMMIT_ID
          sh "curl -v -u wissem:wissem --upload-file project_laravel.zip  http://172.20.0.3:8081/repository/maven-releases/quantum/solutions/io/next-gen-radio/${COMMIT_ID}/next-gen-radio-${COMMIT_ID}.zip"
        }
        post {
-        success {
-          slackSend (color: 'good', message: " Publish to Nexus of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
-        }
-        failure {
-          slackSend (color: 'danger', message: " Publish to Nexus of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
-        }
-      }  
+         success {
+           slackSend (color: 'good', message: " Publish to Nexus of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
+         }
+         failure {
+           slackSend (color: 'danger', message: " Publish to Nexus of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
+         }
+       }  
      }
    }  
    post { 
