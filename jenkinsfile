@@ -1,8 +1,4 @@
 def COMMIT_ID
-def jobName 
-    def buildNumber 
-    def buildUrl 
-    def buildDuration 
  pipeline {
    agent any 
    environment {
@@ -15,6 +11,9 @@ def jobName
 
    }  
    stages {
+   pre {
+    slackSend channel: "#jenkins-alerts-pfe-2023", message: "Build Started: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
+  }
     stage('Checkout') {
       steps {
         script {
