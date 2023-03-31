@@ -1,4 +1,8 @@
 def COMMIT_ID
+def jobName 
+    def buildNumber 
+    def buildUrl 
+    def buildDuration 
  pipeline {
    agent any 
    environment {
@@ -138,24 +142,24 @@ def COMMIT_ID
    post {
      always { 
        cleanWs()
-       def jobName = env.JOB_NAME
-       def buildNumber = env.BUILD_NUMBER
-       def buildUrl = env.BUILD_URL
-       def buildDuration = currentBuild.durationString
+       jobName = env.JOB_NAME
+       buildNumber = env.BUILD_NUMBER
+       buildUrl = env.BUILD_URL
+       buildDuration = currentBuild.durationString
        slackSend color: 'good', message: "Pipeline $jobName #$buildNumber started. See details at $buildUrl. Duration: $buildDuration"
      }
      success {
-       def jobName = env.JOB_NAME
-       def buildNumber = env.BUILD_NUMBER
-       def buildUrl = env.BUILD_URL
-       def buildDuration = currentBuild.durationString
+       jobName = env.JOB_NAME
+       buildNumber = env.BUILD_NUMBER
+       buildUrl = env.BUILD_URL
+       buildDuration = currentBuild.durationString
        slackSend color: 'good', message: "Pipeline $jobName #$buildNumber succeeded. See details at $buildUrl. Duration: $buildDuration"
      }
      failure {
-       def jobName = env.JOB_NAME
-       def buildNumber = env.BUILD_NUMBER
-       def buildUrl = env.BUILD_URL
-       def buildDuration = currentBuild.durationString
+       jobName = env.JOB_NAME
+       buildNumber = env.BUILD_NUMBER
+       buildUrl = env.BUILD_URL
+       buildDuration = currentBuild.durationString
        slackSend color: 'danger', message: "Pipeline $jobName #$buildNumber failed. See details at $buildUrl. Duration: $buildDuration"
      }
    }
