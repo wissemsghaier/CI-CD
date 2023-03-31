@@ -140,10 +140,10 @@ def COMMIT_ID
        cleanWs()
      }
      success {
-       slackSend channel: '#jenkins', color: 'good', message: "started of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!"
+       slackSend channel: '#jenkins-alerts-pfe-2023', color: 'good', message: "started of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!"
      }
      failure {
-       slackSend channel: '#jenkins', color: 'danger', message: "started of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!"
+       slackSend channel: '#jenkins-alerts-pfe-2023', color: 'danger', message: "started of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!"
      }
    }
  }       
