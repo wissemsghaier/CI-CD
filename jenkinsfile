@@ -1,19 +1,10 @@
 def COMMIT_ID
  pipeline {
-   agent any 
-   environment {
-     NEXUS_VERSION = "nexus3"
-     NEXUS_PROTOCOL = "http"
-     NEXUS_URL = "172.20.0.3:8081"  
-     NEXUS_REPOSITORY = "maven-releases"
-     NEXUS_CREDENTIAL_ID = "nexus-jenkins"
-     ARTIFACT_PACKAGING = 'zip'
-
-   }  
+   agent any  
    stages {
-   pre {
-    slackSend channel: "#jenkins-alerts-pfe-2023", message: "Build Started: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
-  }
+     pre {
+       slackSend channel: "#jenkins-alerts-pfe-2023", message: "Build Started: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
+     }
     stage('Checkout') {
       steps {
         script {
@@ -27,7 +18,7 @@ def COMMIT_ID
           sh "git rev-parse --short HEAD > commit_hash.txt"
           COMMIT_ID = readFile('commit_hash.txt').trim()
           echo "Commit Hash: ${COMMIT_ID}"
-        }         
+        }          
       }
       post {
         success {
