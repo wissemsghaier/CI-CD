@@ -4,7 +4,7 @@ def COMMIT_ID
    stages {
      stage ("started "){
        steps {
-         slackSend channel: "#jenkins-alerts-pfe-2023", message: "job Started: ${env.JOB_NAME} ${env.BUILD_NUMBER} (${env.BUILD_URL})"
+         slackSend channel: "#jenkins-alerts-pfe-2023", message: " STARTED:job  '${env.JOB_NAME} ${env.BUILD_NUMBER}' (${env.BUILD_URL})"
        }
      }  
      stage('Checkout') {
