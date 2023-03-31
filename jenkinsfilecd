@@ -19,7 +19,7 @@ pipeline {
             echo "Version tag '${COMMIT_ID}' exists in Nexus for artifact '${GROUP_ID}' '${ARTIFACT_ID}'"
           } 
           else {
-            error "Version tag '${COMMIT_ID}' does not exist in Nexus for artifact '${GROUP_ID}' '${ARTIFACT_ID}'"
+            error "Version tag '${COMMIT_ID}' does not exist in Nexus for artifact ''${GROUP_ID}:${ARTIFACT_ID}'"
           }
         }
       }
