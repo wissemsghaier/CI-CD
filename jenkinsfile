@@ -4,7 +4,7 @@ def COMMIT_ID
    environment {
      NEXUS_VERSION = "nexus3"
      NEXUS_PROTOCOL = "http"
-     NEXUS_URL = "172.20.0.2:8081"  
+     NEXUS_URL = "172.20.0.3:8081"  
      NEXUS_REPOSITORY = "maven-releases"
      NEXUS_CREDENTIAL_ID = "nexus-jenkins"
      ARTIFACT_PACKAGING = 'zip'
@@ -26,6 +26,14 @@ def COMMIT_ID
           echo "Commit Hash: ${COMMIT_ID}"
         }         
       }
+      post {
+        success {
+          slackSend (color: 'good', message: "checkout of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
+        }
+        failure {
+          slackSend (color: 'danger', message: "checkout  of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
+        }
+      }
     }
 
      stage('install packages') {
@@ -34,6 +42,14 @@ def COMMIT_ID
          sh "composer install"
          
        }
+       post {
+        success {
+          slackSend (color: 'good', message: "install packages of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
+        }
+        failure {
+          slackSend (color: 'danger', message: "install packages of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
+        }
+      }
      } 
   
      stage ('pre-configure'){
@@ -41,12 +57,28 @@ def COMMIT_ID
          sh 'cp .env.example .env'
          sh 'php artisan key:generate'
        }
+       post {
+        success {
+          slackSend (color: 'good', message: "pre-configure of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
+        }
+        failure {
+          slackSend (color: 'danger', message: "pre-configure of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
+        }
+      }
      }      
      stage('test') {
        steps { 
          sh "php artisan test "
          sh './vendor/bin/phpunit'
-       }  
+       } 
+       post {
+        success {
+          slackSend (color: 'good', message: "Test of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
+        }
+        failure {
+          slackSend (color: 'danger', message: "Test of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
+        }
+      } 
      }
      stage('Code Quality Check via SonarQube') {
        steps {
@@ -62,24 +94,56 @@ def COMMIT_ID
            }
          }
        }
+       post {
+        success {
+          slackSend (color: 'good', message: "Code Quality of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
+        }
+        failure {
+          slackSend (color: 'danger', message: "Code Qualityof pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
+        }
+      }
      }
      stage("Quality Gate") {
        steps {
          sleep 60
          waitForQualityGate abortPipeline: true
        }
+       post {
+        success {
+          slackSend (color: 'good', message: "Quality Gate of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
+        }
+        failure {
+          slackSend (color: 'danger', message: "Quality Gate of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
+        }
+      }
      }
-     stage("Publish to Nexus Repository Manager") {
+     stage(" Publish to Nexus Repository Manager") {
        steps {
          sh "apt-get install zip"
          sh "zip -r project_laravel.zip ."
-         sh "curl -v -u wissem:wissem --upload-file project_laravel.zip  http://172.20.0.2:8081/repository/maven-releases/quantum/solutions/io/next-gen-radio/${COMMIT_ID}/next-gen-radio-${COMMIT_ID}.zip"
-       }  
+         sh "curl -v -u wissem:wissem --upload-file project_laravel.zip  http://172.20.0.3:8081/repository/maven-releases/quantum/solutions/io/next-gen-radio/${COMMIT_ID}/next-gen-radio-${COMMIT_ID}.zip"
+       }
+       post {
+        success {
+          slackSend (color: 'good', message: " Publish to Nexus of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
+        }
+        failure {
+          slackSend (color: 'danger', message: " Publish to Nexus of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
+        }
+      }  
      }
    }  
    post { 
      always { 
        cleanWs()
+     }
+   }
+   post {
+     success {
+       slackSend channel: '#jenkins', color: 'good', message: "started of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!"
+     }
+     failure {
+       slackSend channel: '#jenkins', color: 'danger', message: "started of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!"
      }
    }
  }       
