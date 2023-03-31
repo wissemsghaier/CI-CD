@@ -3,8 +3,8 @@ def response
 pipeline {
   agent any
   environment {
-    groupId: 'quantum.solutions.io'
-    artifactId: 'next-gen-radio'
+    GROUP_ID = 'quantum.solutions.io'
+    ARTIFACT_ID = 'next-gen-radio'
     COMMIT_ID = '123456'
     NEXUS_URL = 'http://172.20.0.2:8081'
     REPOSITORY = 'maven-releases'
@@ -13,13 +13,13 @@ pipeline {
     stage('Check Nexus Tag') {
       steps {
         script {
-          url = "${NEXUS_URL}/service/rest/v1/search/assets?repository=${REPOSITORY}&group=${groupId}&name=${artifactId}&version=${COMMIT_ID}"                    
+          url = "${NEXUS_URL}/service/rest/v1/search/assets?repository=${REPOSITORY}&group=${GROUP_ID}&name=${ARTIFACT_ID}&version=${COMMIT_ID}"                    
           response = sh(script: "curl -sS ${url}", returnStdout: true)          
           if (response.contains("\"version\":\"${COMMIT_ID}\"")) {
-            echo "Version tag '${COMMIT_ID}' exists in Nexus for artifact '${groupId}' '${artifactId}'"
+            echo "Version tag '${COMMIT_ID}' exists in Nexus for artifact '${GROUP_ID}' '${ARTIFACT_ID}'"
           } 
           else {
-            error "Version tag '${COMMIT_ID}' does not exist in Nexus for artifact '${groupId}' '${artifactId}'"
+            error "Version tag '${COMMIT_ID}' does not exist in Nexus for artifact '${GROUP_ID}' '${ARTIFACT_ID}'"
           }
         }
       }
