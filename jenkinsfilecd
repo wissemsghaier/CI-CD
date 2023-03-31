@@ -4,7 +4,7 @@ pipeline {
   agent any
   environment {
     groupId: 'quantum.solutions.io'
-    artifactId: 'next-gen-radio']
+    artifactId: 'next-gen-radio'
     COMMIT_ID = '123456'
     NEXUS_URL = 'http://172.20.0.2:8081'
     REPOSITORY = 'maven-releases'
