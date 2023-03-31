@@ -28,10 +28,10 @@ def COMMIT_ID
       }
       post {
         success {
-          slackSend (color: 'good', message: "checkout of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
+          slackSend (color: 'good', message: "checkout of pipeline  succeeded!")
         }
         failure {
-          slackSend (color: 'danger', message: "checkout  of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
+          slackSend (color: 'danger', message: "checkout  of pipeline  failed!")
         }
       }
     }
@@ -44,10 +44,10 @@ def COMMIT_ID
        }
        post {
          success {
-           slackSend (color: 'good', message: "install packages of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
+           slackSend (color: 'good', message: "install packages of pipeline  succeeded!")
          } 
          failure {
-           slackSend (color: 'danger', message: "install packages of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
+           slackSend (color: 'danger', message: "install packages of pipeline  failed!")
          }
        }
      } 
@@ -59,10 +59,10 @@ def COMMIT_ID
        }
        post {
          success {
-           slackSend (color: 'good', message: "pre-configure of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
+           slackSend (color: 'good', message: "pre-configure of pipeline  succeeded!")
          }
          failure {
-           slackSend (color: 'danger', message: "pre-configure of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
+           slackSend (color: 'danger', message: "pre-configure of pipeline  failed!")
          }
        }
      }      
@@ -73,10 +73,10 @@ def COMMIT_ID
        } 
        post {
          success {
-           slackSend (color: 'good', message: "Test of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
+           slackSend (color: 'good', message: "Test of pipeline  succeeded!")
          }
          failure {
-           slackSend (color: 'danger', message: "Test of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
+           slackSend (color: 'danger', message: "Test of pipeline  failed!")
          }
        } 
      }
@@ -96,10 +96,10 @@ def COMMIT_ID
        }
        post {
          success {
-           slackSend (color: 'good', message: "Code Quality of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
+           slackSend (color: 'good', message: "Code Quality of pipeline  succeeded!")
          }
          failure {
-           slackSend (color: 'danger', message: "Code Qualityof pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
+           slackSend (color: 'danger', message: "Code Qualityof pipeline  failed!")
          }
        }
      }
@@ -110,10 +110,10 @@ def COMMIT_ID
        }
        post {
          success {
-           slackSend (color: 'good', message: "Quality Gate of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
+           slackSend (color: 'good', message: "Quality Gate of pipeline  succeeded!")
          }
          failure {
-           slackSend (color: 'danger', message: "Quality Gate of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
+           slackSend (color: 'danger', message: "Quality Gate of pipeline  failed!")
          } 
        }
      } 
@@ -125,20 +125,20 @@ def COMMIT_ID
        }
        post {
          success {
-           slackSend (color: 'good', message: " Publish to Nexus of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!")
+           slackSend (color: 'good', message: " Publish to Nexus of pipeline  succeeded!")
          }
          failure {
-           slackSend (color: 'danger', message: " Publish to Nexus of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!")
+           slackSend (color: 'danger', message: " Publish to Nexus of pipeline  failed!")
          }
        }  
      }
    }  
-   post { 
+
+     
+   post {
      always { 
        cleanWs()
      }
-   }
-   post {
      success {
        slackSend channel: '#jenkins', color: 'good', message: "started of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!"
      }
