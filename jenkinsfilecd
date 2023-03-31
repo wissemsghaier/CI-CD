@@ -1,7 +1,7 @@
+def url
+def response
 pipeline {
   agent any
-  def url
-  def response
   environment {
     ARTIFACT = 'next-gen-radio'
     COMMIT_ID = '123456'
