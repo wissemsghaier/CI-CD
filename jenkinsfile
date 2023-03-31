@@ -156,7 +156,7 @@ def COMMIT_ID
        def buildNumber = env.BUILD_NUMBER
        def buildUrl = env.BUILD_URL
        def buildDuration = currentBuild.durationString
-       slackSend color: 'danger', message: "Pipeline $jobName #$buildNumber failed. See details at $buildUrl. Duration: $buildDuration""
+       slackSend color: 'danger', message: "Pipeline $jobName #$buildNumber failed. See details at $buildUrl. Duration: $buildDuration"
      }
    }
  }       
