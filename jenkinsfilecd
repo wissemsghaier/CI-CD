@@ -15,7 +15,7 @@ pipeline {
         script {
           url = "${NEXUS_URL}/repository/maven-releases/quantum/solutions/io/next-gen-radio/${COMMIT_ID}/next-gen-radio-${COMMIT_ID}.zip"
           response = sh(script: "curl -sS ${url}", returnStdout: true)
-          if (response.contains("\"version\":\"${COMMIT_ID}\"")) {
+          if (response.contains("${COMMIT_ID}\")) {
             echo "Version tag '${COMMIT_ID}' exists in Nexus for artifact '${GROUP_ID}:${ARTIFACT_ID}'"
           } 
           else {
