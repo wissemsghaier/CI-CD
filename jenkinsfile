@@ -2,34 +2,30 @@ def COMMIT_ID
  pipeline {
    agent any  
    stages {
-     pre {
-       slackSend channel: "#jenkins-alerts-pfe-2023", message: "Build Started: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
+     stage('Checkout') {
+       steps {
+         script {
+           checkout([$class: 'GitSCM',
+             branches: [[name: "main"]],
+             doGenerateSubmoduleConfigurations: false,
+             extensions: [],
+             submoduleCfg: [],
+             userRemoteConfigs: [[credentialsId: 'jenkins-scm', url: 'https://gitlab.quantum-solutions.xyz/devops/pfe-2023/project_laravel.git']]
+           ]) 
+           sh "git rev-parse --short HEAD > commit_hash.txt"
+           COMMIT_ID = readFile('commit_hash.txt').trim()
+           echo "Commit Hash: ${COMMIT_ID}"
+         }          
+       }
+       post {
+         success {
+           slackSend (color: 'good', message: "checkout of pipeline  succeeded!")
+         }
+         failure {
+           slackSend (color: 'danger', message: "checkout  of pipeline  failed!")
+         }
+       }
      }
-    stage('Checkout') {
-      steps {
-        script {
-          checkout([$class: 'GitSCM',
-            branches: [[name: "main"]],
-            doGenerateSubmoduleConfigurations: false,
-            extensions: [],
-            submoduleCfg: [],
-            userRemoteConfigs: [[credentialsId: 'jenkins-scm', url: 'https://gitlab.quantum-solutions.xyz/devops/pfe-2023/project_laravel.git']]
-          ]) 
-          sh "git rev-parse --short HEAD > commit_hash.txt"
-          COMMIT_ID = readFile('commit_hash.txt').trim()
-          echo "Commit Hash: ${COMMIT_ID}"
-        }          
-      }
-      post {
-        success {
-          slackSend (color: 'good', message: "checkout of pipeline  succeeded!")
-        }
-        failure {
-          slackSend (color: 'danger', message: "checkout  of pipeline  failed!")
-        }
-      }
-    }
-
      stage('install packages') {
        steps {
          //sh "composer update"
