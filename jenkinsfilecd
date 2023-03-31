@@ -3,6 +3,7 @@ def response
 pipeline {
   agent any
   environment {
+    GROUP_ID = 'quantum.solutions.io'
     ARTIFACT = 'next-gen-radio'
     COMMIT_ID = '123456'
     NEXUS_URL = 'http://172.20.0.2:8081'
@@ -25,3 +26,5 @@ pipeline {
     }
   }
 }
+
+
