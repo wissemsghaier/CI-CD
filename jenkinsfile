@@ -123,9 +123,6 @@ def COMMIT_ID
        }  
      }
    }  
-   beforeInput {
-    slackSend channel: "#jenkins-alerts-pfe-2023", message: "Build Started: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
-   }  
    post {
      always { 
        cleanWs()
