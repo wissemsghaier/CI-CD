@@ -138,12 +138,25 @@ def COMMIT_ID
    post {
      always { 
        cleanWs()
+       def jobName = env.JOB_NAME
+       def buildNumber = env.BUILD_NUMBER
+       def buildUrl = env.BUILD_URL
+       def buildDuration = currentBuild.durationString
+       slackSend color: 'good', message: "Pipeline $jobName #$buildNumber started. See details at $buildUrl. Duration: $buildDuration"
      }
      success {
-       slackSend channel: '#jenkins-alerts-pfe-2023', color: 'good', message: "started of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> succeeded!"
+       def jobName = env.JOB_NAME
+       def buildNumber = env.BUILD_NUMBER
+       def buildUrl = env.BUILD_URL
+       def buildDuration = currentBuild.durationString
+       slackSend color: 'good', message: "Pipeline $jobName #$buildNumber succeeded. See details at $buildUrl. Duration: $buildDuration"
      }
      failure {
-       slackSend channel: '#jenkins-alerts-pfe-2023', color: 'danger', message: "started of pipeline <${env.BUILD_URL}|#${env.BUILD_NUMBER}> failed!"
+       def jobName = env.JOB_NAME
+       def buildNumber = env.BUILD_NUMBER
+       def buildUrl = env.BUILD_URL
+       def buildDuration = currentBuild.durationString
+       slackSend color: 'danger', message: "Pipeline $jobName #$buildNumber failed. See details at $buildUrl. Duration: $buildDuration""
      }
    }
  }       
