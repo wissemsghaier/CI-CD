@@ -32,6 +32,17 @@ pipeline {
         }
       }
     }
+    stage ('unzip') {
+      steps {
+        apt-get intall unzip 
+        unzip zipFile: 'laravel.zip'
+      } 
+    }
+  }
+  post {
+    always { 
+      cleanWs()
+    } 
   }
 }
 
