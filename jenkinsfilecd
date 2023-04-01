@@ -6,7 +6,7 @@ pipeline {
     GROUP_ID = 'quantum.solutions.io'
     ARTIFACT_ID = 'next-gen-radio'
     COMMIT_ID = '562687f'
-    NEXUS_URL = 'http://172.20.0.2:8081'
+    NEXUS_URL = 'http://172.20.0.3:8081'
     REPOSITORY = 'maven-releases'
   }
   stages {
@@ -39,6 +39,23 @@ pipeline {
         unstash 'myStash' 
         sh "unzip -t  laravel.zip"
       } 
+    }
+    stage('Build Docker Image') {
+      steps {
+        // clone repository and build Docker image
+        sh 'docker build -t myphp:test .'
+      }
+    }
+    stage('Push Docker Image to Nexus') {
+      steps {
+        // login to Nexus Docker registry
+        withCredentials([usernamePassword(credentialsId: 'nexus-image', usernameVariable: 'jenkins', passwordVariable: '0307wissem2000')]) {
+          sh "docker login -u jenkins -p 0307wissem2000  http://172.20.0.3:8081/repository/dockerhosted-repo/"
+        }
+        // push Docker image to Nexus
+        sh 'docker tag myphp:test  http://172.20.0.3:8082/repository/dockerhosted-repo/myphp:test'
+        sh 'docker push http://172.20.0.3:8082/repository/dockerhosted-repo/myphp:test'
+      }
     }
   }
   post {
