@@ -37,7 +37,7 @@ pipeline {
       steps {
         sh "apt-get install unzip"
         unstash 'myStash' 
-        sh "unzip laravel.zip"
+        sh "unzip -t  laravel.zip"
       } 
     }
   }
