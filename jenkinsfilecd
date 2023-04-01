@@ -35,7 +35,7 @@ pipeline {
     stage ('unzip') {
       steps {
         sh "apt-get install unzip" 
-        unzip zipFile: 'laravel.zip ${url}'
+        sh "unzip laravel.zip"
       } 
     }
   }
