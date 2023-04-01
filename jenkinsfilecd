@@ -28,13 +28,15 @@ pipeline {
       steps {
         script {
           url = "${NEXUS_URL}/repository/maven-releases/quantum/solutions/io/next-gen-radio/${COMMIT_ID}/next-gen-radio-${COMMIT_ID}.zip"
-            sh "curl -L -o laravel.zip ${url}"
+          sh "curl -L -o laravel.zip ${url}"
+          stash name: 'myStash', includes: 'laravel.zip'  
         }
       }
     }
     stage ('unzip') {
       steps {
-        sh "apt-get install unzip" 
+        sh "apt-get install unzip"
+        unstash 'myStash' 
         sh "unzip laravel.zip"
       } 
     }
