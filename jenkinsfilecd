@@ -9,6 +9,7 @@ pipeline {
     NEXUS_URL = 'http://172.20.0.4:8081'
     REPOSITORY = 'maven-releases'
     NEXUS_REGISTRY = 'http://172.20.0.4:8082/repository/dockerhosted-repo/quantum/solution/next'
+    NEXUS_CREDENTIALS = credentials('nexus-image')
     IMAGE_NAME = 'laravel'
     IMAGE_TAG = 'app'
   }
