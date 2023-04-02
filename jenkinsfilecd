@@ -46,12 +46,13 @@ pipeline {
         sh 'docker build -t myphp:test .'
       }
     }
-    stage('Push Docker Image to Nexus') {
+    stage('Push to Nexus') {
       steps {
-    
-        // push Docker image to Nexus
-        sh 'docker tag myphp:test  http://172.20.0.3:8082/repository/dockerhosted-repo/myphp:test'
-        sh 'docker push http://172.20.0.3:8082/repository/dockerhosted-repo/myphp:test'
+        withCredentials([usernamePassword(credentialsId: 'nexus-image', passwordVariable: 'jenkins', usernameVariable: 'jenkins')]) {
+          sh "docker login -u $NEXUS_USERNAME -p $NEXUS_PASSWORD http://172.20.0.4:8081"
+          sh "docker tag laravel:app http://172.20.0.4:8082/repository/dockerhosted-repo/laravel:app"
+          sh "docker push http://172.20.0.3:8082/repository/dockerhosted-repo/laravel:app"
+        }
       }
     }
   }
