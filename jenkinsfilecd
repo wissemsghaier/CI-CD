@@ -48,10 +48,7 @@ pipeline {
     }
     stage('Push Docker Image to Nexus') {
       steps {
-        // login to Nexus Docker registry
-        withCredentials([usernamePassword(credentialsId: 'nexus-image', usernameVariable: 'jenkins', passwordVariable: '0307wissem2000')]) {
-          sh "docker login -u jenkins -p 0307wissem2000  http://172.20.0.3:8081/repository/dockerhosted-repo/"
-        }
+    
         // push Docker image to Nexus
         sh 'docker tag myphp:test  http://172.20.0.3:8082/repository/dockerhosted-repo/myphp:test'
         sh 'docker push http://172.20.0.3:8082/repository/dockerhosted-repo/myphp:test'
