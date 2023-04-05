@@ -2,8 +2,8 @@ def url
 def response
 pipeline {
   agent any
-  parameters{
-    string(name:'params.COMMIT_ID'
+  parameters {
+    string(name:'params.COMMIT_ID')
   }
   environment {
     GROUP_ID = 'quantum.solutions.io'
