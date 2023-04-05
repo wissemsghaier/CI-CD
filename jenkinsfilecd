@@ -22,15 +22,15 @@ pipeline {
           url = "${NEXUS_URL}/repository/maven-releases/quantum/solutions/io/next-gen-radio/${params.COMMIT_ID}/next-gen-radio-${params.COMMIT_ID}.zip"
           response = sh(script: "curl -sS ${url}", returnStdout: true)
           if (response.status != 200) {
-            error "Failed to check Nexus repository for commit ID ${commitId}"
+            error "Failed to check Nexus repository for commit ID ${params.COMMIT_ID}"
           } 
           else {
             results = readJSON text: response.contentAsString
             if (results.items.size() == 0) {
-              error "Commit ID ${commitId} not found in Nexus repository"
+              error "Commit ID ${params.COMMIT_ID} not found in Nexus repository"
             } 
             else {
-              echo "Commit ID ${commitId} found in Nexus repository"
+              echo "Commit ID ${params.COMMIT_ID} found in Nexus repository"
             }
           }
         }
