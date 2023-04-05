@@ -1,6 +1,5 @@
 def url
 def response
-def params.COMMIT_ID
 pipeline {
   agent any
   environment {
