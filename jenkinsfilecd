@@ -21,7 +21,7 @@ pipeline {
           echo "response: ${response}"
 
           
-          if (response.contains("${params.COMMIT_ID}")) {
+          if (response.contains("\"assets\" : [")) {
             echo "Version tag '${params.COMMIT_ID}' exists in Nexus for artifact '${GROUP_ID}:${ARTIFACT_ID}'"
           } 
           else {
