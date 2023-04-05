@@ -2,6 +2,9 @@ def url
 def response
 pipeline {
   agent any
+  parameters{
+    string(name:'params.COMMIT_ID'
+  }
   environment {
     GROUP_ID = 'quantum.solutions.io'
     ARTIFACT_ID = 'next-gen-radio'
@@ -18,14 +21,17 @@ pipeline {
         script {
           url = "${NEXUS_URL}/repository/maven-releases/quantum/solutions/io/next-gen-radio/${params.COMMIT_ID}/next-gen-radio-${params.COMMIT_ID}.zip"
           response = sh(script: "curl -sS ${url}", returnStdout: true)
-          echo "response: ${response}"
-
-          
-          if (response.contains("\"assets\" : [")) {
-            echo "Version tag '${params.COMMIT_ID}' exists in Nexus for artifact '${GROUP_ID}:${ARTIFACT_ID}'"
+          if (response.status != 200) {
+            error "Failed to check Nexus repository for commit ID ${commitId}"
           } 
           else {
-            error "Version tag '${params.COMMIT_ID}' does not exist in Nexus for artifact '${GROUP_ID}:${ARTIFACT_ID}'"
+            results = readJSON text: response.contentAsString
+            if (results.items.size() == 0) {
+              error "Commit ID ${commitId} not found in Nexus repository"
+            } 
+            else {
+              echo "Commit ID ${commitId} found in Nexus repository"
+            }
           }
         }
       }
