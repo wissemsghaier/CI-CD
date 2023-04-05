@@ -30,7 +30,7 @@ pipeline {
     stage('pull code from Nexus') {
       steps {
         script {
-          url = "${NEXUS_URL}/repository/maven-releases/quantum/solutions/io/next-gen-radio/${COMMIT_ID}/next-gen-radio-${COMMIT_ID}.zip"
+          url = "${NEXUS_URL}/repository/maven-releases/quantum/solutions/io/next-gen-radio/${params.COMMIT_ID}/next-gen-radio-${params.COMMIT_ID}.zip"
           sh "curl -L -o laravel.zip ${url}"
           stash name: 'myStash', includes: 'laravel.zip'  
         }
