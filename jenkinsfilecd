@@ -31,15 +31,13 @@ pipeline {
       steps {
         script {
           url = "${NEXUS_URL}/repository/maven-releases/quantum/solutions/io/next-gen-radio/${params.COMMIT_ID}/next-gen-radio-${params.COMMIT_ID}.zip"
-          sh "curl -L -o project.zip ${url}"
-          stash name: 'myStash', includes: 'project.zip'  
+          sh "curl -L -o project.zip ${url}"  
         }
       }
     }
     stage ('unzip') {
       steps {
         sh "apt-get install unzip"
-        unstash 'myStash' 
         sh "unzip -t  project.zip"
       } 
     }
