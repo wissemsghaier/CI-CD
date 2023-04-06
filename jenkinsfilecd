@@ -21,14 +21,14 @@ pipeline {
       steps {
         script {
            commitId = 'params.COMMIT_ID'
-           echo "Commit ID: ${commitId}"
-          url = "${NEXUS_URL}/repository/maven-releases/quantum/solutions/io/next-gen-radio/${commitId}/next-gen-radio-${commitId}.zip"
+           echo "Commit ID: ${params.COMMIT_ID}"
+          url = "${NEXUS_URL}/repository/maven-releases/quantum/solutions/io/next-gen-radio/${params.COMMIT_ID}/next-gen-radio-${params.COMMIT_ID}.zip"
           response = sh(script: "curl -sS ${url}", returnStdout: true)         
-          if (response.contains("${commitId }")) {
-            echo "Version tag '${commitId}' exists in Nexus for artifact '${GROUP_ID}:${ARTIFACT_ID}'"
+          if (response.contains("${params.COMMIT_ID }")) {
+            echo "Version tag '${params.COMMIT_ID}' exists in Nexus for artifact '${GROUP_ID}:${ARTIFACT_ID}'"
           } 
           else {
-            error "Version tag '${commitId}' does not exist in Nexus for artifact '${GROUP_ID}:${ARTIFACT_ID}'"
+            error "Version tag '${params.COMMIT_ID}' does not exist in Nexus for artifact '${GROUP_ID}:${ARTIFACT_ID}'"
           }
         }
       }
