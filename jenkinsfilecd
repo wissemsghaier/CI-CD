@@ -1,7 +1,6 @@
 def url
 def response
 def commitId
-def json
 pipeline {
   agent any
   parameters {
@@ -24,7 +23,8 @@ pipeline {
           commitId = 'params.COMMIT_ID'
           echo "Commit ID: ${params.COMMIT_ID}"
           url = "${NEXUS_URL}/repository/maven-releases/quantum/solutions/io/next-gen-radio/${params.COMMIT_ID}/next-gen-radio-${params.COMMIT_ID}.zip"
-          response = sh(script: "curl -sS ${url}", returnStdout: true)        
+          response = sh(script: "curl -sS -X GET ${url}", returnStdout: true)    
+          echo "response: ${response}"     
           if (response.contains("${params.COMMIT_ID }")) {
             echo "Version tag '${params.COMMIT_ID}' exists in Nexus for artifact '${GROUP_ID}:${ARTIFACT_ID}'"
           } 
