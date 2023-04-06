@@ -23,7 +23,7 @@ pipeline {
     stage('Check Nexus Tag') {
       steps {
         script {
-          url = '${NEXUS_URL}//repository/maven-releases/quantum/solutions/io/next-gen-radio&attributes.commit_id='"${commitId}"''
+          url = '${NEXUS_URL}/repository/maven-releases/service/rest/v1/search/assets?name=next-gen-radio&attributes.commit_id='"${params.COMMIT_ID}"''
           response = sh(script: "curl -s -X GET -u 'nexus_username:nexus_password' ${url}", returnStdout: true)
           json = readJSON(text: response)
           if (json.items.size() > 0) {
