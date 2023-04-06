@@ -25,17 +25,11 @@ pipeline {
           echo "Commit ID: ${params.COMMIT_ID}"
           url = "${NEXUS_URL}/repository/maven-releases/quantum/solutions/io/next-gen-radio/${params.COMMIT_ID}/next-gen-radio-${params.COMMIT_ID}.zip"
           response = sh(script: "curl -sS ${url}", returnStdout: true)        
-          if (response.contains("items")) {
-            json = readJSON(text: response)
-            if (json.items.size() > 0) {
-              echo "Commit ID ${params.COMMIT_ID} exists in Nexus repository."
-            } 
-            else {
-              error "Commit ID ${params.COMMIT_ID} does not exist in Nexus repository. Error 404."
-            }
+          if (response.contains("${params.COMMIT_ID }")) {
+            echo "Version tag '${params.COMMIT_ID}' exists in Nexus for artifact '${GROUP_ID}:${ARTIFACT_ID}'"
           } 
           else {
-            error "Error checking Nexus repository for commit ID ${params.COMMIT_ID}."
+            error "Version tag '${params.COMMIT_ID}' does not exist in Nexus for artifact '${GROUP_ID}:${ARTIFACT_ID}'"
           }
         }
       }
