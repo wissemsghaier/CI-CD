@@ -130,27 +130,23 @@ def COMMIT_ID
    }  
    post {
      always {      
-       cleanWs()
+       cleanWs()      
      }  
-     success {  
+     success {
+       slackSend channel: '#jenkins-alerts-pfe-2023', message: " build ${currentBuild.result} for job ${env.JOB_NAME} #${env.BUILD_NUMBER} (duration: ${currentBuild.durationString}). Check out the build at ${env.BUILD_URL}"
        emailext (
          to: 'wissemsghaier2000@gmail.com',
          subject: "Job '${env.JOB_NAME}'",
          body: "build ${currentBuild.result} for job  ${env.JOB_NAME} at  ${env.BUILD_URL} and the build number $BUILD_NUMBER"
        )
-     }  
+     }
      failure {
+       slackSend channel: '#jenkins-alerts-pfe-2023', message: "Build ${currentBuild.result} for ${env.JOB_NAME} #${env.BUILD_NUMBER} (duration: ${currentBuild.durationString}). Check out the build at ${env.BUILD_URL}"
        emailext (
          to: 'wissemsghaier2000@gmail.com',
          subject: "Job '${env.JOB_NAME}'",
          body: "build ${currentBuild.result} for job  ${env.JOB_NAME} at  ${env.BUILD_URL} and the build number $BUILD_NUMBER"
        )  
-     }
-     success {
-       slackSend channel: '#jenkins-alerts-pfe-2023', message: " build ${currentBuild.result} for job ${env.JOB_NAME} #${env.BUILD_NUMBER} (duration: ${currentBuild.durationString}). Check out the build at ${env.BUILD_URL}"
-     }
-     failure {
-       slackSend channel: '#jenkins-alerts-pfe-2023', message: "Build ${currentBuild.result} for ${env.JOB_NAME} #${env.BUILD_NUMBER} (duration: ${currentBuild.durationString}). Check out the build at ${env.BUILD_URL}"
      }
    }
  }       
