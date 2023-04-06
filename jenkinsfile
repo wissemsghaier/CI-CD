@@ -129,15 +129,22 @@ def COMMIT_ID
      }
    }  
    post {
-     always { 
-       
+     always {      
        cleanWs()
+     }  
+     success {  
        emailext (
          to: 'wissemsghaier2000@gmail.com',
-           subject: "Job '${env.JOB_NAME}'",
-           body: "The Jenkins project link:  job completed :  ${env.JOB_NAME} at  ${env.BUILD_URL} and the build number $BUILD_NUMBER"
-         )
-       
+         subject: "Job '${env.JOB_NAME}'",
+         body: "build ${currentBuild.result} for job  ${env.JOB_NAME} at  ${env.BUILD_URL} and the build number $BUILD_NUMBER"
+       )
+     }  
+     failure {
+       emailext (
+         to: 'wissemsghaier2000@gmail.com',
+         subject: "Job '${env.JOB_NAME}'",
+         body: "build ${currentBuild.result} for job  ${env.JOB_NAME} at  ${env.BUILD_URL} and the build number $BUILD_NUMBER"
+       )  
      }
      success {
        slackSend channel: '#jenkins-alerts-pfe-2023', message: " build ${currentBuild.result} for job ${env.JOB_NAME} #${env.BUILD_NUMBER} (duration: ${currentBuild.durationString}). Check out the build at ${env.BUILD_URL}"
