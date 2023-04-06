@@ -15,8 +15,6 @@ pipeline {
     NEXUS_CREDENTIALS = credentials('nexus-jenkins')
     IMAGE_NAME = 'laravel'
     IMAGE_TAG = 'app'
-    nexus_username = 'wissem'
-    nexus_password = 'wissem'
     commitId = 'params.COMMIT_ID'
   }
   stages {
@@ -24,7 +22,7 @@ pipeline {
       steps {
         script {
            commitId = 'params.COMMIT_ID'
-          url = "${NEXUS_URL}/repository/maven-releases/quantum/solutions/io/next-gen-radio/${commitId }/next-gen-radio-${commitId }.zip"
+          url = "${NEXUS_URL}/repository/maven-releases/quantum/solutions/io/next-gen-radio&attributes.commit_id=${params.COMMIT_ID}/next-gen-radio&attributes.commit_id=${params.COMMIT_ID}.zip"
           response = sh(script: "curl -sS ${url}", returnStdout: true)         
           if (response.contains("${commitId }")) {
             echo "Version tag '${commitId }' exists in Nexus for artifact '${GROUP_ID}:${ARTIFACT_ID}'"
