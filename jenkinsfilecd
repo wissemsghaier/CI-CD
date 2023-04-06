@@ -4,7 +4,7 @@ def json
 pipeline {
   agent any
   parameters {
-    string(name:'params.COMMIT_ID', defaultValue: '', description: '')
+    string(name:'COMMIT_ID', defaultValue: '', description: '')
   }
   environment {
     GROUP_ID = 'quantum.solutions.io'
@@ -15,22 +15,23 @@ pipeline {
     NEXUS_CREDENTIALS = credentials('nexus-jenkins')
     IMAGE_NAME = 'laravel'
     IMAGE_TAG = 'app'
-    nexus-username= 'wissem'
-    nexus-password= 'wissem'
+    nexus_username = 'wissem'
+    nexus_password = 'wissem'
+    commitId = 'params.COMMIT_ID'
   }
   stages {
     stage('Check Nexus Tag') {
       steps {
         script {
-          url = "${NEXUS_URL}/service/rest/v1/search/assets?repository=${REPOSITORY}&name=${ARTIFACT_ID}&attributes.commit_id=${params.COMMIT_ID}"
-          response = sh(script: "curl -s -X GET -u 'nexus-username:nexus-password' ${url}", returnStdout: true)
+          url = "${NEXUS_URL}/service/rest/v1/search/assets?repository=${REPOSITORY}&name=${ARTIFACT_ID}&attributes.commit_id=${commitId}"
+          response = sh(script: "curl -s -X GET -u 'nexus_username:nexus_password' ${url}", returnStdout: true)
           json = readJSON(text: response)
           if (json.items.size() > 0) {
-            echo "Artifact with commit ID ${params.COMMIT_ID} found in Nexus!"
+            echo "Artifact with commit ID ${commitId} found in Nexus!"
             // Do something if the artifact exists
           } 
           else {
-            echo "Artifact with commit ID ${params.COMMIT_ID} not found in Nexus."
+            echo "Artifact with commit ID ${commitId} not found in Nexus."
             // Do something if the artifact does not exist
           }
         }
