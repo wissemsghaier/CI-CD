@@ -134,8 +134,8 @@ def COMMIT_ID
        cleanWs()
        emailext (
          to: 'wissemsghaier2000@gmail.com',
-           subject: 'Build Notification',
-           body: "The Jenkins project link:  job ${env.JOB_NAME} at  ${env.BUILD_URL} and the build number $BUILD_NUMBER"
+           subject: "Job '${env.JOB_NAME}'",
+           body: "The Jenkins project link:  job completed :  ${env.JOB_NAME} at  ${env.BUILD_URL} and the build number $BUILD_NUMBER"
          )
        
      }
