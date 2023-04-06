@@ -130,7 +130,13 @@ def COMMIT_ID
    }  
    post {
      always { 
+       
        cleanWs()
+       emailext (
+         to: 'wissemsghaier2000@gmail.com',
+           subject: 'Build Notification',
+           body: "The Jenkins project link:  job ${env.JOB_NAME} at  ${env.BUILD_URL} and the build number $BUILD_NUMBER"
+         )
        
      }
      success {
