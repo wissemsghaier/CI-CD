@@ -15,8 +15,8 @@ pipeline {
     NEXUS_CREDENTIALS = credentials('nexus-jenkins')
     IMAGE_NAME = 'laravel'
     IMAGE_TAG = 'app'
-    NEXUS_USERNAME = 'wissem'
-    NEXUS_PASSWORD = 'wissem'
+    NEXUS_USERNAME = 'jenkins'
+    NEXUS_PASSWORD = '0307wissem2000'
   }
   stages {
       stage('Check Nexus Tag') {
