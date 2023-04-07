@@ -52,8 +52,7 @@ pipeline {
     }
     stage('Build Docker Image') {
       steps {
-        // clone repository and build Docker image
-        sh 'docker build -t  laravel:app .'
+        sh 'docker build -t http://172.20.0.3:8082/repository/dockerhosted-repo/laravel:app .'
       }
     }
     stage('Push to Nexus') {
