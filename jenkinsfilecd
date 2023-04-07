@@ -58,7 +58,7 @@ pipeline {
     stage('Push to Nexus') {
       steps {
         withCredentials([usernamePassword(credentialsId: 'nexus-jenkins', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
-          sh "docker login -u wissem  --password wissem 172.20.0.3:8082"
+          sh "docker login -u wissem  --password-stdin 172.20.0.3:8082"
           sh "docker tag ${IMAGE_NAME}:${IMAGE_TAG} 172.20.0.3:8082/${IMAGE_NAME}:${IMAGE_TAG}"
           sh "docker push 172.20.0.3:882/${IMAGE_NAME}:${IMAGE_TAG}"
         }
