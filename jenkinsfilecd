@@ -52,7 +52,7 @@ pipeline {
     }
     stage('Build Docker Image') {
       steps {
-        sh 'docker build -t laravel:app .'
+        sh 'docker build -t hamza:sghaier .'
       }
     }
     stage('Push to Nexus') {
