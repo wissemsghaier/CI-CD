@@ -35,6 +35,14 @@ pipeline {
           }
         }
       }
+      post {
+        success {
+          slackSend (color: 'good', message: "checkout of pipeline  succeeded!")
+        }
+        failure {
+          slackSend (color: 'danger', message: "checkout  of pipeline  failed!")
+        }
+      }
     }
     stage('pull code from Nexus') {
       steps {
@@ -43,16 +51,40 @@ pipeline {
           sh "curl -L -o project.zip ${url}"  
         }
       }
+      post {
+        success {
+          slackSend (color: 'good', message: "checkout of pipeline  succeeded!")
+        }
+        failure {
+          slackSend (color: 'danger', message: "checkout  of pipeline  failed!")
+        }
+      }
     }
     stage ('unzip') {
       steps {
         sh "apt-get install unzip"
         sh "unzip -t  project.zip"
+      }
+      post {
+        success {
+          slackSend (color: 'good', message: "checkout of pipeline  succeeded!")
+        }
+        failure {
+          slackSend (color: 'danger', message: "checkout  of pipeline  failed!")
+        }
       } 
     }
     stage('Build Docker Image') {
       steps {
         sh 'docker build -t hamza:sghaier .'
+      }
+      post {
+        success {
+          slackSend (color: 'good', message: "checkout of pipeline  succeeded!")
+        }
+        failure {
+          slackSend (color: 'danger', message: "checkout  of pipeline  failed!")
+        }
       }
     }
     stage('Push to Nexus') {
@@ -63,11 +95,35 @@ pipeline {
           sh "docker push 172.20.0.10:8082/repository/dockerhosted-repo/hamza:sghaier"
         }
       }
+      post {
+        success {
+          slackSend (color: 'good', message: "checkout of pipeline  succeeded!")
+        }
+        failure {
+          slackSend (color: 'danger', message: "checkout  of pipeline  failed!")
+        }
+      }
     }
   }
   post {
     always { 
       cleanWs()
+    }
+    success {
+      slackSend channel: '#jenkins-alerts-pfe-2023', message: " deploy ${currentBuild.result} for job ${env.JOB_NAME} #${env.BUILD_NUMBER} (duration: ${currentBuild.durationString}). Check out the deploy at ${env.BUILD_URL}"
+      emailext (
+        to: 'wissemsghaier2000@gmail.com',
+        subject: "Job '${env.JOB_NAME}'",
+        body: "deploy  ${currentBuild.result} for job  ${env.JOB_NAME} at  ${env.BUILD_URL} and the build number $BUILD_NUMBER"
+      )
+    }
+    failure {
+      slackSend channel: '#jenkins-alerts-pfe-2023', message: "deploy ${currentBuild.result} for ${env.JOB_NAME} #${env.BUILD_NUMBER} (duration: ${currentBuild.durationString}). Check out the deploy at ${env.BUILD_URL}"
+      emailext (
+        to: 'wissemsghaier2000@gmail.com',
+        subject: "Job '${env.JOB_NAME}'",
+        body: "deploy  ${currentBuild.result} for job  ${env.JOB_NAME} at  ${env.BUILD_URL} and the build number $BUILD_NUMBER"
+      )  
     } 
   }
 }
