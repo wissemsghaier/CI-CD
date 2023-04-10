@@ -35,6 +35,7 @@ COPY ./site.conf /etc/nginx/conf.d/default.conf
 # Set the appropriate permissions on the application directory
 RUN chown -R www-data:www-data /var/www/html
 
+USER www-data
 
 EXPOSE 80
 CMD service nginx start && php-fpm
