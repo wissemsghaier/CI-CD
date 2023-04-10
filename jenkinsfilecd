@@ -13,8 +13,6 @@ pipeline {
     REPOSITORY = 'maven-releases'
     NEXUS_REGISTRY = '172.20.0.10:8082/'
     NEXUS_CREDENTIALS = credentials('nexus-jenkins')
-    IMAGE_NAME = 'laravel'
-    IMAGE_TAG = 'app'
     NEXUS_USERNAME = 'wissem'
     NEXUS_PASSWORD = 'wissem'
   }
@@ -91,7 +89,7 @@ pipeline {
       steps {
         withCredentials([usernamePassword(credentialsId: 'nexus-jenkins', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
           sh "docker login -u wissem  --password wissem 172.20.0.10:8082/repository/dockerhosted-repo"
-          sh "docker tag hamza:sghaier 172.20.0.10:8082/repository/dockerhosted-repo/hamza:${params.COMMIT_ID}"
+          sh "docker tag hamza:${params.COMMIT_ID} 172.20.0.10:8082/repository/dockerhosted-repo/hamza:${params.COMMIT_ID}"
           sh "docker push 172.20.0.10:8082/repository/dockerhosted-repo/hamza:${params.COMMIT_ID}"
         }
       }
