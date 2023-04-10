@@ -1,6 +1,6 @@
 # Use an official PHP runtime as a parent image
 FROM php:8.1-fpm
-
+USER root
 # Set the working directory to /app
 WORKDIR /var/www/html
 
