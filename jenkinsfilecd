@@ -102,6 +102,19 @@ pipeline {
         }
       }
     }
+    stage('run container'){
+      steps {
+        sh " docker run --name laravel -p 8888:80 hamza:'${params.COMMIT_ID}'"
+      }
+      post {
+        success {
+          slackSend (color: 'good', message: "run container  succeeded!")
+        }
+        failure {
+          slackSend (color: 'danger', message: "run container failed!")
+        }
+      }
+    }  
   }
   post {
     always { 
