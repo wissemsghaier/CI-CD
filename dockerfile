@@ -26,7 +26,7 @@ COPY . /var/www/html
 
 RUN composer install
 
-RUN chmod -R 775 /var/www/html
+RUN chmod -R 777 /var/www/html
 
 # Copy the Nginx configuration file
 COPY ./site.conf /etc/nginx/conf.d/default.conf
