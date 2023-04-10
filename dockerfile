@@ -22,7 +22,7 @@ RUN docker-php-ext-install pdo pdo_mysql zip gd mbstring exif pcntl bcmath opcac
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy the application code into the container
-COPY . /var/www/html
+ADD . /var/www/html
 
 RUN composer install
 
