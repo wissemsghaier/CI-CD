@@ -61,7 +61,7 @@ pipeline {
     stage ('unzip') {
       steps {
         sh "apt-get install unzip"
-        sh "unzip project.zip"
+        sh "unzip -o project.zip"
       }
       post {
         success {
