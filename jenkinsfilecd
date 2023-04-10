@@ -74,7 +74,7 @@ pipeline {
     }
     stage('Build Docker Image') {
       steps {
-        sh "docker build -f dockerfile -t hamza:'${params.COMMIT_ID}' ."
+        sh "sudo docker build -f dockerfile -t hamza:'${params.COMMIT_ID}' ."
       }
       post {
         success {
