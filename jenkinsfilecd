@@ -37,10 +37,10 @@ pipeline {
       }
       post {
         success {
-          slackSend (color: 'good', message: "checkout of pipeline  succeeded!")
+          slackSend (color: 'good', message: "check to nexus with '${params.COMMIT_ID}' succeeded!")
         }
         failure {
-          slackSend (color: 'danger', message: "checkout  of pipeline  failed!")
+          slackSend (color: 'danger', message:"check to nexus with '${params.COMMIT_ID}' failed!")
         }
       }
     }
@@ -53,10 +53,10 @@ pipeline {
       }
       post {
         success {
-          slackSend (color: 'good', message: "checkout of pipeline  succeeded!")
+          slackSend (color: 'good', message: "pull from nexus  succeeded!")
         }
         failure {
-          slackSend (color: 'danger', message: "checkout  of pipeline  failed!")
+          slackSend (color: 'danger', message: "pull from nexus   failed!")
         }
       }
     }
@@ -67,10 +67,10 @@ pipeline {
       }
       post {
         success {
-          slackSend (color: 'good', message: "checkout of pipeline  succeeded!")
+          slackSend (color: 'good', message: "unzip succeeded!")
         }
         failure {
-          slackSend (color: 'danger', message: "checkout  of pipeline  failed!")
+          slackSend (color: 'danger', message: "unzip   failed!")
         }
       } 
     }
@@ -80,10 +80,10 @@ pipeline {
       }
       post {
         success {
-          slackSend (color: 'good', message: "checkout of pipeline  succeeded!")
+          slackSend (color: 'good', message: "Build Docker Image succeeded!")
         }
         failure {
-          slackSend (color: 'danger', message: "checkout  of pipeline  failed!")
+          slackSend (color: 'danger', message: "Build Docker Image  failed!")
         }
       }
     }
@@ -97,10 +97,10 @@ pipeline {
       }
       post {
         success {
-          slackSend (color: 'good', message: "checkout of pipeline  succeeded!")
+          slackSend (color: 'good', message: "Push image to Nexus  succeeded!")
         }
         failure {
-          slackSend (color: 'danger', message: "checkout  of pipeline  failed!")
+          slackSend (color: 'danger', message: "Push image to Nexus failed!")
         }
       }
     }
