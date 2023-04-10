@@ -74,7 +74,8 @@ pipeline {
     }
     stage('Build Docker Image') {
       steps {
-        sh "sudo docker build -f dockerfile -t hamza:'${params.COMMIT_ID}' ."
+        sh "chown -R jenkins:jenkins ."
+        sh "docker build -f dockerfile -t hamza:'${params.COMMIT_ID}' ."
       }
       post {
         success {
