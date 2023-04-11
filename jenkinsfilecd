@@ -74,7 +74,7 @@ pipeline {
     }
     stage('Build Docker Image') {
       steps {
-        sh "chown -R jenkins:jenkins ."
+        // sh "chown -R jenkins:jenkins ."
         sh "docker build -f dockerfile -t hamza:'${params.COMMIT_ID}' ."
       }
       post {
@@ -118,9 +118,9 @@ pipeline {
     }  
   }
   post {
-    /*always { 
+    always { 
       cleanWs()
-    }*/
+    }
     success {
       slackSend channel: '#jenkins-alerts-pfe-2023', message: " deploy ${currentBuild.result} for job ${env.JOB_NAME} #${env.BUILD_NUMBER} (duration: ${currentBuild.durationString}). Check out the deploy at ${env.BUILD_URL}"
       emailext (
