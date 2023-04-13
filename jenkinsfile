@@ -81,8 +81,8 @@ def COMMIT_ID
            def scannerHome = tool 'sonarqube-scanner';
            withSonarQubeEnv("SonarQube") {
               sh "${tool("sonarqube-scanner")}/bin/sonar-scanner \
-              -Dsonar.projectName=project_laravel\
-              -Dsonar.projectKey=project_laravel \
+              -Dsonar.projectName=project_laravel12\
+              -Dsonar.projectKey=project_laravel12 \
               -Dsonar.sources=. \
               -Dsonar.host.url=http://localhost:9001/  \
               -Dsonar.login=squ_46a98b9d40038050199857de88cd6eeceebf3876"
