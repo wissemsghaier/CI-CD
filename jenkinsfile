@@ -84,7 +84,7 @@ def COMMIT_ID
               -Dsonar.projectName=project_laravel\
               -Dsonar.projectKey=project_laravel \
               -Dsonar.sources=. \
-              -Dsonar.host.url=http://172.20.0.12:9001/  \
+              -Dsonar.host.url=http://localhost:9001/  \
               -Dsonar.login=squ_46a98b9d40038050199857de88cd6eeceebf3876"
            }
          }
